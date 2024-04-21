@@ -1,11 +1,14 @@
 package com.batalhanaval.controller;
 
+import com.batalhanaval.dtos.UserModel;
+import com.batalhanaval.entity.NivelAcesso;
 import com.batalhanaval.entity.User;
 import com.batalhanaval.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -18,8 +21,17 @@ public class UserController {
         this.userService = userService;
     }
 
+    @CrossOrigin
     @PostMapping
-    public ResponseEntity<User> addUser(@RequestBody User user) {
+    public ResponseEntity<User> addUser(@RequestBody UserModel userModel) {
+        User user = User.builder()
+                .email(userModel.getEmail())
+                .nome(userModel.getNome())
+                .senha(userModel.getSenha())
+                .dataNascimento(LocalDateTime.now())
+                .nivelAcesso(NivelAcesso.USER)
+                .build();
+
         user = this.userService.saveUser(user);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
