@@ -22,7 +22,7 @@ public class ItemService {
     }
 
     public Item putItem(Item item, Long itemId) throws Exception {
-        Item itemDb = this.itemRepository.findById(itemId).orElseThrow(() ->new Exception("Item Não encontrado"));
+        Item itemDb = this.itemRepository.findById(itemId).orElseThrow(() -> new Exception("Item Não encontrado"));
 
         itemDb.setNome(item.getNome());
         itemDb.setDesc(item.getDesc());
