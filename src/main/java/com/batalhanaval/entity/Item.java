@@ -20,7 +20,10 @@ public class Item {
     private String descricao;
     private BigDecimal valor;
     private String tipoPagamento;
-    //private String imageUrl;
+
+    @Lob
+    @Column(columnDefinition = "longblob")
+    private byte[] image;
     private Boolean ativo;
 
     @ManyToOne
