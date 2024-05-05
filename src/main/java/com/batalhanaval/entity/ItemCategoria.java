@@ -19,14 +19,6 @@ public class ItemCategoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String titulo;
     private String categoria;
-
-
-    // Hat
-    // Hair
-    // Shirt
-    // Shoes
-    // pants
-
-    // todo criar enum ce categoria, fazer post e put dos itens
 }

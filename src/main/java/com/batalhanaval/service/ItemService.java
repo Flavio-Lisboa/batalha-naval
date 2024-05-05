@@ -1,35 +1,66 @@
 package com.batalhanaval.service;
 
+import com.batalhanaval.dtos.ItemListModel;
+import com.batalhanaval.dtos.ItemModel;
 import com.batalhanaval.entity.Item;
+import com.batalhanaval.entity.ItemCategoria;
 import com.batalhanaval.repository.ItemRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
 public class ItemService {
 
-
     private final ItemRepository itemRepository;
+    private final ItemCategoriaService itemCategoriaService;
 
-    public ItemService(ItemRepository itemRepository) {
+    public ItemService(ItemRepository itemRepository, ItemCategoriaService itemCategoriaService) {
         this.itemRepository = itemRepository;
+        this.itemCategoriaService = itemCategoriaService;
     }
 
-    public Item postItem(Item item) {
-        return this.itemRepository.save(item);
+    public Item postItem(ItemModel item) {
+        ItemCategoria itemCategoria = this.itemCategoriaService.getCategoria(item.getCategoriaId());
+
+        Item itemBuilder = Item.builder()
+                .ativo(item.getAtivo())
+                .itemCategoria(itemCategoria)
+                .descricao(item.getDescricao())
+                .nome(item.getNome())
+                .tipoPagamento(item.getTipoPagamento())
+                .valor(item.getValor())
+                .build();
+        return this.itemRepository.save(itemBuilder);
     }
 
     public Item putItem(Item item, Long itemId) throws Exception {
         Item itemDb = this.itemRepository.findById(itemId).orElseThrow(() -> new Exception("Item Não encontrado"));
+        ItemCategoria itemCategoria = this.itemCategoriaService.getCategoria(item.getItemCategoria().getId());
 
         itemDb.setNome(item.getNome());
-        itemDb.setDesc(item.getDesc());
-        itemDb.setPrecoMoeda(item.getPrecoMoeda());
-        itemDb.setPrecoDiamante(item.getPrecoDiamante());
-        itemDb.setImageUrl(item.getImageUrl());
+        itemDb.setDescricao(item.getDescricao());
+        itemDb.setTipoPagamento(item.getTipoPagamento());
+        itemDb.setValor(item.getValor());
+        //itemDb.setImageUrl(item.getImageUrl());
+        itemDb.setItemCategoria(itemCategoria);
+        itemDb.setAtivo(item.getAtivo());
         return this.itemRepository.save(itemDb);
     }
 
+    public List<ItemListModel> getAllItens() {
+        List<Item> itens = this.itemRepository.findAll();
+        List<ItemListModel> itemListModels = new ArrayList<>();
+
+        itens.forEach(i -> {
+            ItemListModel itemListModel = new ItemListModel();
+            itemListModel.setCategoria(i.getNome());
+            itemListModel.setCategoria(i.getItemCategoria().getTitulo());
+            itemListModels.add(itemListModel);
+        });
+
+        return itemListModels;
+    }
 }
