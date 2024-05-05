@@ -56,11 +56,17 @@ public class ItemService {
 
         itens.forEach(i -> {
             ItemListModel itemListModel = new ItemListModel();
-            itemListModel.setCategoria(i.getNome());
+            itemListModel.setId(i.getId());
+            itemListModel.setTitulo(i.getNome());
             itemListModel.setCategoria(i.getItemCategoria().getTitulo());
             itemListModels.add(itemListModel);
         });
 
         return itemListModels;
+    }
+
+
+    public void delete(Long itemId) {
+        this.itemRepository.deleteById(itemId);
     }
 }

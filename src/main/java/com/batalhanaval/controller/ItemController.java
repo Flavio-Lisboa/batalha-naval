@@ -41,6 +41,12 @@ public class ItemController {
 
         return ResponseEntity.ok(itemListModels);
     }
+
+    @CrossOrigin
+    @DeleteMapping("{itemId}")
+    public void deleteItem(@PathVariable Long itemId) {
+        this.itemService.delete(itemId);
+    }
 }
 
 
