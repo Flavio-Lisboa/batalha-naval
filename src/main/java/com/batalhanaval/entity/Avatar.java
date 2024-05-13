@@ -3,29 +3,24 @@ package com.batalhanaval.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.math.BigDecimal;
-
+@Entity
+@Data
+@Builder
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@Entity
-public class Item {
+public class Avatar {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
-    private String descricao;
-    private BigDecimal valor;
-    private String tipoPagamento;
-
     @Lob
     @Column(columnDefinition = "longblob")
-    private byte[] image;
-    private Boolean ativo;
+    private byte[] imgAvatar;
 
-    @ManyToOne
-    private ItemCategoria itemCategoria;
+    @OneToOne()
+    @JoinColumn(name="tema_id", referencedColumnName="id",nullable=false)
+    private Tema tema;
 }
