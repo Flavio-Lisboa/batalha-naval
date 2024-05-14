@@ -6,4 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface TemaRepository extends JpaRepository<Tema, Long> {
 
     Boolean existsTemaByNome(String nome);
+    Boolean existsTemaByNomeAndId(String nome, Long Id);
 }
