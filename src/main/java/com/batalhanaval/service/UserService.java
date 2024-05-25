@@ -40,6 +40,10 @@ public class UserService {
         user.setSenha(updateData.getSenha());
         user.setDataNascimento(updateData.getDataNascimento());
         user.setNivelAcesso(updateData.getNivelAcesso());
+        user.setDiamante(updateData.getDiamante());
+        user.setMoeda(updateData.getMoeda());
+        user.setVolumeMusica(updateData.getVolumeMusica());
+        user.setVolumeSom(updateData.getVolumeSom());
 
         this.userRepository.save(user);
 
