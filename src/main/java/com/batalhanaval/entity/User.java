@@ -66,6 +66,38 @@ public class User {
         this.nivelAcesso = nivelAcesso;
     }
 
+    public String getDiamante() {
+        return diamante;
+    }
+
+    public void setDiamante(String diamante) {
+        this.diamante = diamante;
+    }
+
+    public String getMoeda() {
+        return moeda;
+    }
+
+    public void setMoeda(String moeda) {
+        this.moeda = moeda;
+    }
+
+    public int getVolumeMusica() {
+        return volumeMusica;
+    }
+
+    public void setVolumeMusica(int volumeMusica) {
+        this.volumeMusica = volumeMusica;
+    }
+
+    public int getVolumeSom() {
+        return volumeSom;
+    }
+
+    public void setVolumeSom(int volumeSom) {
+        this.volumeSom = volumeSom;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -74,4 +106,8 @@ public class User {
     private String senha;
     private LocalDateTime dataNascimento;
     private NivelAcesso nivelAcesso;
+    private String diamante;
+    private String moeda;
+    private int volumeMusica;
+    private int volumeSom;
 }
