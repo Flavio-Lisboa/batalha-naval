@@ -146,4 +146,19 @@ public class UserController {
 
         return ResponseEntity.ok(user);
     }
+
+    @PutMapping("{userId}/alterar-trofeu")
+    @CrossOrigin
+    public ResponseEntity<User> alterarTrofeu(@RequestBody int trofeu, @PathVariable Long userId) {
+        User user = this.userService.getUser(userId);
+
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        user.setTrofeu(trofeu);
+        user = this.userService.saveUser(user);
+
+        return ResponseEntity.ok(user);
+    }
 }

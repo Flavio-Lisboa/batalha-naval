@@ -98,6 +98,14 @@ public class User {
         this.volumeSom = volumeSom;
     }
 
+    public int getTrofeu() {
+        return trofeu;
+    }
+
+    public void setTrofeu(int volumeSom) {
+        this.trofeu = trofeu;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -110,4 +118,5 @@ public class User {
     private String moeda;
     private int volumeMusica;
     private int volumeSom;
+    private int trofeu;
 }
