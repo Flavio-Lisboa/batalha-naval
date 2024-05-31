@@ -38,6 +38,6 @@ public class Embarcacao {
     private byte[] barcosFile;
 
     @OneToOne()
-    @JoinColumn(name="tema_id", referencedColumnName="id",nullable=false)
+    @JoinColumn(name="tema_id", referencedColumnName="id", nullable=false)
     private Tema tema;
 }

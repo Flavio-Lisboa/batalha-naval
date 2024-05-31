@@ -1,5 +1,7 @@
 package com.batalhanaval.controller;
 
+import com.batalhanaval.dtos.LoginModel;
+import com.batalhanaval.dtos.LoginResponse;
 import com.batalhanaval.dtos.UserModel;
 import com.batalhanaval.entity.NivelAcesso;
 import com.batalhanaval.entity.User;
@@ -38,6 +40,7 @@ public class UserController {
     }
 
     @GetMapping("{userId}")
+    @CrossOrigin
     public ResponseEntity<User> getUser(@PathVariable Long userId) {
         User user = this.userService.getUser(userId);
 
@@ -45,6 +48,7 @@ public class UserController {
     }
 
     @GetMapping
+    @CrossOrigin
     public ResponseEntity<List<User>> getUsers() {
         List<User> users = this.userService.getUsers();
 
@@ -52,6 +56,7 @@ public class UserController {
     }
 
     @PutMapping("{userId}")
+    @CrossOrigin
     public ResponseEntity<User> updateUser(@RequestBody User user, @PathVariable Long userId) {
         user = this.userService.updateUser(userId, user);
 
@@ -59,7 +64,58 @@ public class UserController {
     }
 
     @DeleteMapping("{userId}")
+    @CrossOrigin
     public void deleteUser(@PathVariable Long userId) {
         this.userService.deleteUser(userId);
     }
+
+    @PostMapping("login")
+    @CrossOrigin
+    public LoginResponse login(@RequestBody LoginModel loginModel) {
+        return this.userService.login(loginModel);
+    }
+
+    @PutMapping("{userId}/alterar-senha")
+    @CrossOrigin
+    public ResponseEntity<User> alterarSenha(@RequestBody String novaSenha, @PathVariable Long userId) {
+        User user = this.userService.getUser(userId);
+
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        user.setSenha(novaSenha);
+        user = this.userService.saveUser(user);
+
+        return ResponseEntity.ok(user);
+    }
+
+    @PutMapping("{userId}/alterar-nome")
+    @CrossOrigin
+    public ResponseEntity<User> alterarNome(@RequestBody String novoNome, @PathVariable Long userId) {
+        User user = this.userService.getUser(userId);
+
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        user.setNome(novoNome);
+        user = this.userService.saveUser(user);
+
+        return ResponseEntity.ok(user);
+    }
+
+    @GetMapping("{userId}/info")
+    @CrossOrigin
+    public ResponseEntity<User> getUserInfo(@PathVariable Long userId) {
+        User user = this.userService.getUser(userId);
+
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(user);
+    }
+
+
 }
