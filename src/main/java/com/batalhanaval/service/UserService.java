@@ -44,6 +44,7 @@ public class UserService {
         user.setMoeda(updateData.getMoeda());
         user.setVolumeMusica(updateData.getVolumeMusica());
         user.setVolumeSom(updateData.getVolumeSom());
+        user.setSrcAvatar(updateData.getSrcAvatar());
 
         this.userRepository.save(user);
 

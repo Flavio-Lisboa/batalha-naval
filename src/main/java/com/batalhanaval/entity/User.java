@@ -82,20 +82,43 @@ public class User {
         this.moeda = moeda;
     }
 
-    public int getVolumeMusica() {
+    public float getVolumeMusica() {
         return volumeMusica;
     }
 
-    public void setVolumeMusica(int volumeMusica) {
+    public void setVolumeMusica(float volumeMusica) {
         this.volumeMusica = volumeMusica;
     }
 
-    public int getVolumeSom() {
+    public float getVolumeSom() {
         return volumeSom;
     }
 
-    public void setVolumeSom(int volumeSom) {
+    public void setVolumeSom(float volumeSom) {
         this.volumeSom = volumeSom;
+    }
+
+    public String getSrcAvatar() {
+        return srcAvatar;
+    }
+
+    public void setSrcAvatar(String srcAvatar) {
+        this.srcAvatar = srcAvatar;
+    }
+
+    public int getTrofeus() {
+        return trofeus;
+    }
+
+    public void setTrofeus(int trofeus) {
+        this.trofeus = trofeus;
+    }
+    public int getVitorias() {
+        return vitorias;
+    }
+
+    public void setVitorias(int vitorias) {
+        this.vitorias = vitorias;
     }
 
     @Id
@@ -108,6 +131,9 @@ public class User {
     private NivelAcesso nivelAcesso;
     private String diamante;
     private String moeda;
-    private int volumeMusica;
-    private int volumeSom;
+    private float volumeMusica;
+    private float volumeSom;
+    private String srcAvatar;
+    private int trofeus;
+    private int vitorias;
 }
