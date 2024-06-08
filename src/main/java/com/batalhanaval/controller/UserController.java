@@ -32,6 +32,13 @@ public class UserController {
                 .senha(userModel.getSenha())
                 .dataNascimento(LocalDateTime.now())
                 .nivelAcesso(NivelAcesso.USER)
+                .diamante("10")
+                .moeda("500")
+                .volumeMusica(1)
+                .volumeSom(1)
+                .srcAvatar("../../assets/images/img-home-page/pirata1.png")
+                .trofeus(0)
+                .vitorias(0)
                 .build();
 
         user = this.userService.saveUser(user);
@@ -43,7 +50,7 @@ public class UserController {
     @CrossOrigin
     public ResponseEntity<User> getUser(@PathVariable Long userId) {
         User user = this.userService.getUser(userId);
-
+        System.out.println(user);
         return ResponseEntity.ok(user);
     }
 
