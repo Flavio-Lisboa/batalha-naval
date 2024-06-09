@@ -2,6 +2,7 @@ package com.batalhanaval.controller;
 
 import com.batalhanaval.dtos.LoginModel;
 import com.batalhanaval.dtos.LoginResponse;
+import com.batalhanaval.dtos.PacoteModel;
 import com.batalhanaval.dtos.UserModel;
 import com.batalhanaval.entity.NivelAcesso;
 import com.batalhanaval.entity.User;
@@ -32,8 +33,8 @@ public class UserController {
                 .senha(userModel.getSenha())
                 .dataNascimento(LocalDateTime.now())
                 .nivelAcesso(NivelAcesso.USER)
-                .diamante("10")
-                .moeda("500")
+                .diamante(10)
+                .moeda(500)
                 .volumeMusica(0.5f)
                 .volumeSom(0.5f)
                 .srcAvatar("../../assets/images/img-home-page/pirata1.png")
@@ -124,5 +125,15 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
+    @GetMapping("{userId}/pacotes")
+    @CrossOrigin
+    public ResponseEntity<List<PacoteModel>> getPacotes(@PathVariable Long userId) {
+        List<PacoteModel> pacoteModels = this.userService.getAllPacotes(userId);
 
+        if (pacoteModels == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(pacoteModels);
+    }
 }

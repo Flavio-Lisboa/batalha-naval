@@ -1,23 +1,16 @@
 package com.batalhanaval.service;
 
-import com.batalhanaval.dtos.PacoteInputModel;
-import com.batalhanaval.dtos.PacoteModel;
-import com.batalhanaval.dtos.PacoteResponseModel;
-import com.batalhanaval.dtos.PacoteUpdateModel;
-import com.batalhanaval.entity.Avatar;
-import com.batalhanaval.entity.Embarcacao;
-import com.batalhanaval.entity.Tema;
-import com.batalhanaval.repository.AvatarRepository;
-import com.batalhanaval.repository.EmbarcacaoRepository;
-import com.batalhanaval.repository.TemaRepository;
+import com.batalhanaval.dtos.*;
+import com.batalhanaval.entity.*;
+import com.batalhanaval.repository.*;
 import com.batalhanaval.util.ImageUtil;
+import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
+import java.math.BigDecimal;
+import java.util.*;
 
 @Service
 public class PacoteService {
@@ -25,11 +18,19 @@ public class PacoteService {
     private final TemaRepository temaRepository;
     private final AvatarRepository avatarRepository;
     private final EmbarcacaoRepository embarcacaoRepository;
+    private final UserService userService;
+    private final UserRepository userRepository;
+    private final EntityManager entityManager;
+    private final UserTemaRepository userTemaRepository;
 
-    public PacoteService(TemaRepository temaRepository, AvatarRepository avatarRepository, EmbarcacaoRepository embarcacaoRepository) {
+    public PacoteService(TemaRepository temaRepository, AvatarRepository avatarRepository, EmbarcacaoRepository embarcacaoRepository, UserService userService, UserRepository userRepository, EntityManager entityManager, UserTemaRepository userTemaRepository) {
         this.temaRepository = temaRepository;
         this.avatarRepository = avatarRepository;
         this.embarcacaoRepository = embarcacaoRepository;
+        this.userService = userService;
+        this.userRepository = userRepository;
+        this.entityManager = entityManager;
+        this.userTemaRepository = userTemaRepository;
     }
 
     @Transactional
@@ -212,5 +213,42 @@ public class PacoteService {
         this.avatarRepository.delete(avatar);
 
         this.temaRepository.delete(tema);
+    }
+
+    @Transactional
+    public CompraPacoteModel comprarPacote(Long temaId, Long compradorId) throws Exception {
+        Tema tema = this.temaRepository.findById(temaId).orElse(null);
+        User user = this.userService.getUser(compradorId);
+
+        UserTema userTema = this.userTemaRepository.findByUserIdAndTemaId(compradorId, temaId).orElse(null);
+
+        if (userTema != null) {
+            return new CompraPacoteModel("Você já comprou esse pacote", false);        }
+
+
+        if (Objects.equals(tema.getTipoPagamento(), "Moeda")) {
+            if (tema.getValor().compareTo(new BigDecimal(user.getMoeda())) > 0) {
+                return new CompraPacoteModel("Saldo de moedas insuficiente", false);
+            }
+
+            user.setMoeda(new BigDecimal(user.getMoeda()).subtract(tema.getValor()).intValue());
+
+        } else if (Objects.equals(tema.getTipoPagamento(), "Diamante")) {
+            if (tema.getValor().compareTo(new BigDecimal(user.getDiamante())) > 0) {
+                return new CompraPacoteModel("Saldo de diamantes insuficiente", false);
+            }
+
+            user.setDiamante(new BigDecimal(user.getDiamante()).subtract(tema.getValor()).intValue());
+        }
+
+        this.temaRepository.save(tema);
+
+        UserTema novoUserTema = new UserTema();
+        novoUserTema.setUser(user);
+        novoUserTema.setTema(tema);
+
+        this.userTemaRepository.save(novoUserTema);
+
+        return new CompraPacoteModel("Compra realizada com sucesso", true);
     }
 }

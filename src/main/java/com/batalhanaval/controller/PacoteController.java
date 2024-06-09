@@ -1,9 +1,6 @@
 package com.batalhanaval.controller;
 
-import com.batalhanaval.dtos.PacoteInputModel;
-import com.batalhanaval.dtos.PacoteModel;
-import com.batalhanaval.dtos.PacoteResponseModel;
-import com.batalhanaval.dtos.PacoteUpdateModel;
+import com.batalhanaval.dtos.*;
 import com.batalhanaval.service.PacoteService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -109,5 +106,11 @@ public class PacoteController {
     @CrossOrigin
     public void delete(@PathVariable Long temaId) {
         this.pacoteService.delete(temaId);
+    }
+
+    @PostMapping("usuarios/{compradorId}/temas/{temaId}/comprar")
+    @CrossOrigin
+    public CompraPacoteModel comprarPacote(@PathVariable Long compradorId, @PathVariable Long temaId) throws Exception {
+        return this.pacoteService.comprarPacote(temaId, compradorId);
     }
 }
