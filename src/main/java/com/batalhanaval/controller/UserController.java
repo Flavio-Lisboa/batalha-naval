@@ -75,21 +75,6 @@ public class UserController {
         return this.userService.login(loginModel);
     }
 
-    @PutMapping("{userId}/alterar-senha")
-    @CrossOrigin
-    public ResponseEntity<User> alterarSenha(@RequestBody String novaSenha, @PathVariable Long userId) {
-        User user = this.userService.getUser(userId);
-
-        if (user == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        user.setSenha(novaSenha);
-        user = this.userService.saveUser(user);
-
-        return ResponseEntity.ok(user);
-    }
-
     @PutMapping("{userId}/alterar-nome")
     @CrossOrigin
     public ResponseEntity<User> alterarNome(@RequestBody String novoNome, @PathVariable Long userId) {
@@ -147,6 +132,34 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
+    @PutMapping("{userId}/alterar-volumemusica")
+    public ResponseEntity<User> alterarVolumeMusica(@RequestBody int novoVolumeMusica, @PathVariable Long userId) {
+        User user = this.userService.getUser(userId);
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        user.setVolumeMusica(novoVolumeMusica);
+        user = this.userService.saveUser(user);
+
+        return ResponseEntity.ok(user);
+    }
+
+    @PutMapping("{userId}/alterar-volumesom")
+    @CrossOrigin
+    public ResponseEntity<User> alterarVolumeSom(@RequestBody int novoVolumeSom, @PathVariable Long userId) {
+        User user = this.userService.getUser(userId);
+
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        user.setVolumeSom(novoVolumeSom);
+        user = this.userService.saveUser(user);
+
+        return ResponseEntity.ok(user);
+    }
+
     @PutMapping("{userId}/alterar-trofeu")
     @CrossOrigin
     public ResponseEntity<User> alterarTrofeu(@RequestBody int trofeu, @PathVariable Long userId) {
@@ -157,6 +170,21 @@ public class UserController {
         }
 
         user.setTrofeu(trofeu);
+        user = this.userService.saveUser(user);
+
+        return ResponseEntity.ok(user);
+    }
+
+    @PutMapping("{userId}/alterar-senha")
+    @CrossOrigin
+    public ResponseEntity<User> alterarSenha(@RequestBody String senha, @PathVariable Long userId) {
+        User user = this.userService.getUser(userId);
+
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        user.setSenha(senha);
         user = this.userService.saveUser(user);
 
         return ResponseEntity.ok(user);
