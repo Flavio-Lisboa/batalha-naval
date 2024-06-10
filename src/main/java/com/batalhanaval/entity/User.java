@@ -104,19 +104,44 @@ public class User {
         this.srcAvatar = srcAvatar;
     }
 
-    public int getTrofeus() {
-        return trofeus;
-    }
-
-    public void setTrofeus(int trofeus) {
-        this.trofeus = trofeus;
-    }
     public int getVitorias() {
         return vitorias;
     }
 
     public void setVitorias(int vitorias) {
         this.vitorias = vitorias;
+    }
+
+    public int getDerrotas() {
+        return derrotas;
+    }
+
+    public void setDerrotas(int derrotas) {
+        this.derrotas = derrotas;
+    }
+
+    public int getIdAvatar() {
+        return idAvatar;
+    }
+
+    public void setIdAvatar(int idAvatar) {
+        this.idAvatar = idAvatar;
+    }
+
+    public int getIdTema() {
+        return idTema;
+    }
+
+    public void setIdTema(int idTema) {
+        this.idTema = idTema;
+    }
+
+    public int getIdEmbarcacao() {
+        return idEmbarcacao;
+    }
+
+    public void setIdEmbarcacao(int idEmbarcacao) {
+        this.idEmbarcacao = idEmbarcacao;
     }
 
     @Id
@@ -132,6 +157,9 @@ public class User {
     private float volumeMusica;
     private float volumeSom;
     private String srcAvatar;
-    private int trofeus;
     private int vitorias;
+    private int derrotas;
+    private int idAvatar;
+    private int idTema;
+    private int idEmbarcacao;
 }

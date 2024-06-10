@@ -7,10 +7,12 @@ import com.batalhanaval.dtos.UserModel;
 import com.batalhanaval.entity.NivelAcesso;
 import com.batalhanaval.entity.User;
 import com.batalhanaval.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -20,13 +22,17 @@ public class UserController {
 
     private final UserService userService;
 
+
+    @Autowired
+    private PacoteController pacoteController;
+
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
     @CrossOrigin
     @PostMapping
-    public ResponseEntity<User> addUser(@RequestBody UserModel userModel) {
+    public ResponseEntity<User> addUser(@RequestBody UserModel userModel) throws Exception {
         User user = User.builder()
                 .email(userModel.getEmail())
                 .nome(userModel.getNome())
@@ -37,12 +43,19 @@ public class UserController {
                 .moeda(500)
                 .volumeMusica(0.5f)
                 .volumeSom(0.5f)
-                .srcAvatar("../../assets/images/img-home-page/pirata1.png")
-                .trofeus(0)
+               // .srcAvatar("../../assets/images/img-home-page/pirata1.png")
+                .idAvatar(1)
+                .idTema(1)
+                .idEmbarcacao(1)
                 .vitorias(0)
+                .derrotas(0)
                 .build();
 
+
         user = this.userService.saveUser(user);
+
+
+        this.pacoteController.comprarPacote(user.getId(), 1L); //falar pro Flavio dps ;-;
 
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
@@ -108,6 +121,33 @@ public class UserController {
         }
 
         user.setNome(novoNome);
+        user = this.userService.saveUser(user);
+
+        return ResponseEntity.ok(user);
+    }
+
+    @PutMapping("{userId}/alterar-ids-pacotes")
+    @CrossOrigin
+    public ResponseEntity<User> updateUserTemaId(
+            @RequestParam() int newTemaId,
+            @RequestParam() int newAvatarId,
+            @RequestParam() int newEmbarcacoesId,
+            @PathVariable Long userId) {
+        User user = this.userService.getUser(userId);
+
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        if(newTemaId != 0){
+            user.setIdTema(newTemaId);
+        }
+        if(newAvatarId != 0){
+            user.setIdAvatar(newAvatarId);
+        }
+        if(newEmbarcacoesId != 0){
+            user.setIdEmbarcacao(newEmbarcacoesId);
+        }
         user = this.userService.saveUser(user);
 
         return ResponseEntity.ok(user);
