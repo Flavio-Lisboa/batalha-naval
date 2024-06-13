@@ -1,15 +1,13 @@
 package com.batalhanaval.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Data
@@ -66,44 +64,84 @@ public class User {
         this.nivelAcesso = nivelAcesso;
     }
 
-    public String getDiamante() {
+    public int getDiamante() {
         return diamante;
     }
 
-    public void setDiamante(String diamante) {
+    public void setDiamante(int diamante) {
         this.diamante = diamante;
     }
 
-    public String getMoeda() {
+    public int getMoeda() {
         return moeda;
     }
 
-    public void setMoeda(String moeda) {
+    public void setMoeda(int moeda) {
         this.moeda = moeda;
     }
 
-    public int getVolumeMusica() {
+    public float getVolumeMusica() {
         return volumeMusica;
     }
 
-    public void setVolumeMusica(int volumeMusica) {
+    public void setVolumeMusica(float volumeMusica) {
         this.volumeMusica = volumeMusica;
     }
 
-    public int getVolumeSom() {
+    public float getVolumeSom() {
         return volumeSom;
     }
 
-    public void setVolumeSom(int volumeSom) {
+    public void setVolumeSom(float volumeSom) {
         this.volumeSom = volumeSom;
     }
 
-    public int getTrofeu() {
-        return trofeu;
+    public String getSrcAvatar() {
+        return srcAvatar;
     }
 
-    public void setTrofeu(int volumeSom) {
-        this.trofeu = trofeu;
+    public void setSrcAvatar(String srcAvatar) {
+        this.srcAvatar = srcAvatar;
+    }
+
+    public int getVitorias() {
+        return vitorias;
+    }
+
+    public void setVitorias(int vitorias) {
+        this.vitorias = vitorias;
+    }
+
+    public int getDerrotas() {
+        return derrotas;
+    }
+
+    public void setDerrotas(int derrotas) {
+        this.derrotas = derrotas;
+    }
+
+    public int getIdAvatar() {
+        return idAvatar;
+    }
+
+    public void setIdAvatar(int idAvatar) {
+        this.idAvatar = idAvatar;
+    }
+
+    public int getIdTema() {
+        return idTema;
+    }
+
+    public void setIdTema(int idTema) {
+        this.idTema = idTema;
+    }
+
+    public int getIdEmbarcacao() {
+        return idEmbarcacao;
+    }
+
+    public void setIdEmbarcacao(int idEmbarcacao) {
+        this.idEmbarcacao = idEmbarcacao;
     }
 
     @Id
@@ -114,9 +152,14 @@ public class User {
     private String senha;
     private LocalDateTime dataNascimento;
     private NivelAcesso nivelAcesso;
-    private String diamante;
-    private String moeda;
-    private int volumeMusica;
-    private int volumeSom;
-    private int trofeu;
+    private int diamante;
+    private int moeda;
+    private float volumeMusica;
+    private float volumeSom;
+    private String srcAvatar;
+    private int vitorias;
+    private int derrotas;
+    private int idAvatar;
+    private int idTema;
+    private int idEmbarcacao;
 }

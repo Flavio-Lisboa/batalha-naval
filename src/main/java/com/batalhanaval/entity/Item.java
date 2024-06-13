@@ -1,9 +1,11 @@
 package com.batalhanaval.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -28,5 +30,7 @@ public class Item {
     private Double valor;
     private String tipoPagamento;
     private String tipoItem;
+    @Lob
+    @Column(columnDefinition = "longblob")
     public byte[] imagem;
 }
