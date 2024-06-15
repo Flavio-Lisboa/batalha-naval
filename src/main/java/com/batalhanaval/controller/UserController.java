@@ -1,5 +1,6 @@
 package com.batalhanaval.controller;
 
+import com.batalhanaval.config.SocketConnectionHandler;
 import com.batalhanaval.dtos.LoginModel;
 import com.batalhanaval.dtos.LoginResponse;
 import com.batalhanaval.dtos.PacoteModel;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.socket.WebSocketSession;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -63,15 +65,15 @@ public class UserController {
     @GetMapping("{userId}")
     @CrossOrigin
     public ResponseEntity<User> getUser(@PathVariable Long userId) {
+        System.out.println(SocketConnectionHandler.webSocketSessions);
         User user = this.userService.getUser(userId);
-        System.out.println(user);
         return ResponseEntity.ok(user);
     }
 
     @GetMapping
     @CrossOrigin
-    public ResponseEntity<List<User>> getUsers() {
-        List<User> users = this.userService.getUsers();
+    public ResponseEntity<List<UserModel>> getUsers() {
+        List<UserModel> users = this.userService.getUsers();
 
         return ResponseEntity.ok(users);
     }
@@ -223,5 +225,11 @@ public class UserController {
         }
 
         return ResponseEntity.ok(pacoteModels);
+    }
+
+    @GetMapping("usuario-logado/{userId}")
+    @CrossOrigin
+    public void usuarioLogado(@PathVariable Long userId) {
+        this.userService.usuarioLogado(userId);
     }
 }

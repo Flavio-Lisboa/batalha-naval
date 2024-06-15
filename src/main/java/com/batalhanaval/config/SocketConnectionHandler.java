@@ -1,19 +1,29 @@
 package com.batalhanaval.config;
 
+import com.batalhanaval.controller.GameController;
+import com.batalhanaval.dtos.GameModel;
+import com.batalhanaval.service.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 import org.springframework.web.socket.CloseStatus;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class SocketConnectionHandler extends TextWebSocketHandler {
     //https://medium.com/@parthiban.rajalingam/introduction-to-web-sockets-using-spring-boot-and-angular-b11e7363f051
     //https://www.geeksforgeeks.org/spring-boot-web-socket/
-    List<WebSocketSession> webSocketSessions
-            = Collections.synchronizedList(new ArrayList<>());
+    public static Map<Long, WebSocketSession> webSocketSessions
+            = new HashMap<>();
+
+    private UserService userService;
+    private GameController gameController;
+
+    public SocketConnectionHandler(UserService userService, GameController gameController) {
+        this.userService = userService;
+        this.gameController = gameController;
+    }
 
     @Override
     public void
@@ -24,9 +34,11 @@ public class SocketConnectionHandler extends TextWebSocketHandler {
         super.afterConnectionEstablished(session);
         // Logging the connection ID with Connected Message
         System.out.println(session.getId() + " Connected");
-
+        System.out.println(this.userService.usuarioLogadoId);
         // Adding the session into the list
-        webSocketSessions.add(session);
+        webSocketSessions.remove(this.userService.usuarioLogadoId);
+        webSocketSessions.put(this.userService.usuarioLogadoId, session);
+
     }
 
     @Override
@@ -38,7 +50,7 @@ public class SocketConnectionHandler extends TextWebSocketHandler {
                 + " DisConnected");
 
         // Removing the connection info from the list
-        webSocketSessions.remove(session);
+        webSocketSessions.remove(this.userService.usuarioLogadoId);
     }
 
     @Override
@@ -48,18 +60,6 @@ public class SocketConnectionHandler extends TextWebSocketHandler {
     {
 
         super.handleMessage(session, message);
-
-        // Iterate through the list and pass the message to
-        // all the sessions Ignore the session in the list
-        // which wants to send the message.
-        for (WebSocketSession webSocketSession :
-                webSocketSessions) {
-            if (session == webSocketSession)
-                continue;
-
-            // sendMessage is used to send the message to
-            // the session
-            webSocketSession.sendMessage(message);
-        }
+        this.gameController.sendMessage(message);
     }
 }

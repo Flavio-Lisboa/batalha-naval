@@ -96,14 +96,6 @@ public class User {
         this.volumeSom = volumeSom;
     }
 
-    public String getSrcAvatar() {
-        return srcAvatar;
-    }
-
-    public void setSrcAvatar(String srcAvatar) {
-        this.srcAvatar = srcAvatar;
-    }
-
     public int getVitorias() {
         return vitorias;
     }
@@ -156,7 +148,6 @@ public class User {
     private int moeda;
     private float volumeMusica;
     private float volumeSom;
-    private String srcAvatar;
     private int vitorias;
     private int derrotas;
     private int idAvatar;
