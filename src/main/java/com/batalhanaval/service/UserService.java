@@ -77,9 +77,9 @@ public class UserService {
 
         User user = this.userRepository.findByEmail(model.getLogin());
 
-        if (user == null) return new LoginResponse("Não existe usuário cadastrado com esse email", false, 0L, "");
+        if (user == null) return new LoginResponse("Usuário não encontrado. Por favor, verifique suas credenciais ou cadastre-se.", false, 0L, "");
 
-        if (!Objects.equals(user.getSenha(), model.getSenha())) return new LoginResponse("Senha incorreta", false, 0L, "");
+        if (!Objects.equals(user.getSenha(), model.getSenha())) return new LoginResponse("Senha incorreta.", false, 0L, "");
 
         LoginResponse response = new LoginResponse();
         response.setMensagem("Logado com sucesso!");

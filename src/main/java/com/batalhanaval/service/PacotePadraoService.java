@@ -34,7 +34,7 @@ public class PacotePadraoService implements SmartInitializingSingleton {
         }
 
         InputStream temaImg = getClass().getClassLoader().getResourceAsStream("pacotePadrao/bgMadeira.png");
-        InputStream avatarImg = getClass().getClassLoader().getResourceAsStream("pacotePadrao/pirata2.png");
+        InputStream avatarImg = getClass().getClassLoader().getResourceAsStream("pacotePadrao/pirataPadrao.png");
         InputStream embarcacoesImg = getClass().getClassLoader().getResourceAsStream("pacotePadrao/BarcosPadrao.png");
         InputStream barco1Img = getClass().getClassLoader().getResourceAsStream("pacotePadrao/barcoPadrao1.png");
         InputStream barco2Img = getClass().getClassLoader().getResourceAsStream("pacotePadrao/barcoPadrao2.png");

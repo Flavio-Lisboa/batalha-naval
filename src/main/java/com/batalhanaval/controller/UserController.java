@@ -98,7 +98,7 @@ public class UserController {
 
     @PutMapping("{userId}/alterar-senha")
     @CrossOrigin
-    public ResponseEntity<User> alterarSenha(@RequestBody String novaSenha, @PathVariable Long userId) {
+    public ResponseEntity<User> alterarSenha(@RequestParam() String novaSenha, @PathVariable Long userId) {
         User user = this.userService.getUser(userId);
 
         if (user == null) {
@@ -111,9 +111,41 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
+    @PutMapping("{userId}/update-moeda")
+    @CrossOrigin
+    public ResponseEntity<Boolean> updateMoeda(@RequestParam() int valorMoeda, @PathVariable Long userId) {
+        User user = this.userService.getUser(userId);
+
+        if (user == null) {
+           // return ResponseEntity.notFound().build();
+            ResponseEntity.status(HttpStatus.NOT_FOUND).body(false);
+        }
+
+        user.setMoeda(valorMoeda);
+        user = this.userService.saveUser(user);
+
+        return ResponseEntity.ok(true);//ResponseEntity.ok(user);
+    }
+
+    @PutMapping("{userId}/update-diamante")
+    @CrossOrigin
+    public ResponseEntity<Boolean> updateDiamante(@RequestParam() int valorDiamante, @PathVariable Long userId) {
+        User user = this.userService.getUser(userId);
+
+        if (user == null) {
+           // return ResponseEntity.notFound().build();
+            ResponseEntity.status(HttpStatus.NOT_FOUND).body(false);
+        }
+
+        user.setDiamante(valorDiamante);
+        user = this.userService.saveUser(user);
+
+        return ResponseEntity.ok(true);//ResponseEntity.ok(user);
+    }
+
     @PutMapping("{userId}/alterar-nome")
     @CrossOrigin
-    public ResponseEntity<User> alterarNome(@RequestBody String novoNome, @PathVariable Long userId) {
+    public ResponseEntity<User> alterarNome(@RequestParam() String novoNome, @PathVariable Long userId) {
         User user = this.userService.getUser(userId);
 
         if (user == null) {
@@ -121,6 +153,22 @@ public class UserController {
         }
 
         user.setNome(novoNome);
+        user = this.userService.saveUser(user);
+
+        return ResponseEntity.ok(user);
+    }
+
+    @PutMapping("{userId}/alterar-volume")
+    @CrossOrigin
+    public ResponseEntity<User> alterarVolume(@RequestParam() float volumeSom, @RequestParam() float volumeMusica, @PathVariable Long userId) {
+        User user = this.userService.getUser(userId);
+
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        user.setVolumeSom(volumeSom);
+        user.setVolumeMusica(volumeMusica);
         user = this.userService.saveUser(user);
 
         return ResponseEntity.ok(user);
