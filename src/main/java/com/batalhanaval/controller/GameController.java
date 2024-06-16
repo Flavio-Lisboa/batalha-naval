@@ -1,8 +1,8 @@
 package com.batalhanaval.controller;
 
 import com.batalhanaval.config.SocketConnectionHandler;
+import com.batalhanaval.dtos.EncerrarConexaoInput;
 import com.batalhanaval.dtos.GameModel;
-import com.batalhanaval.service.UserService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.bind.annotation.*;
@@ -19,12 +19,6 @@ public class GameController {
     private static final List<Long> usuariosEmEspera = new ArrayList<>();
     private Map<Long, Long> playerConnections = new HashMap<>();
     private Long usuarioLogadoId;
-
-    private UserService userService;
-
-    public GameController(UserService userService) {
-        this.userService = userService;
-    }
 
     public void sendMessage(WebSocketMessage<?> message) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -76,5 +70,13 @@ public class GameController {
 
         gameModel.setSucesso(false);
         return gameModel;
+    }
+
+    @PostMapping
+    @CrossOrigin
+    public void encerrarConexao(@RequestBody EncerrarConexaoInput encerrarConexaoInput) {
+
+        this.playerConnections.remove(encerrarConexaoInput.getId2());
+        this.playerConnections.remove(encerrarConexaoInput.getId());
     }
 }
