@@ -24,6 +24,7 @@ public class UserService {
     private final AvatarRepository avatarRepository;
     private final EmbarcacaoRepository embarcacaoRepository;
     private final UserTemaRepository userTemaRepository;
+    public Long usuarioLogadoId;
 
     public UserService(UserRepository userRepository, TemaRepository temaRepository, AvatarRepository avatarRepository, EmbarcacaoRepository embarcacaoRepository, UserTemaRepository userTemaRepository) {
         this.userRepository = userRepository;
@@ -156,5 +157,9 @@ public class UserService {
         });
 
         return pacoteModels;
+    }
+
+    public void usuarioLogado(Long id) {
+        this.usuarioLogadoId = id;
     }
 }

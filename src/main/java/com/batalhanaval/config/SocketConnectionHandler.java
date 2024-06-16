@@ -8,13 +8,22 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import org.springframework.web.socket.CloseStatus;
 
 import java.io.IOException;
+
 import java.util.*;
 
 public class SocketConnectionHandler extends TextWebSocketHandler {
     //https://medium.com/@parthiban.rajalingam/introduction-to-web-sockets-using-spring-boot-and-angular-b11e7363f051
     //https://www.geeksforgeeks.org/spring-boot-web-socket/
-    List<WebSocketSession> webSocketSessions
-            = Collections.synchronizedList(new ArrayList<>());
+    public static Map<Long, WebSocketSession> webSocketSessions
+            = new HashMap<>();
+
+    private UserService userService;
+    private GameController gameController;
+
+    public SocketConnectionHandler(UserService userService, GameController gameController) {
+        this.userService = userService;
+        this.gameController = gameController;
+    }
 
     private List<Map<String, String>> arr = new ArrayList<>();
     private List<Map<String, Map<String, String>>> playingArray = new ArrayList<>();
@@ -164,8 +173,6 @@ public class SocketConnectionHandler extends TextWebSocketHandler {
 
         super.afterConnectionEstablished(session);
         // Logging the connection ID with Connected Message
-        System.out.println(session.getId() + " Connected");
-
         // Adding the session into the list
         webSocketSessions.add(session);
     }
@@ -177,8 +184,7 @@ public class SocketConnectionHandler extends TextWebSocketHandler {
         super.afterConnectionClosed(session, status);
         System.out.println(session.getId()
                 + " DisConnected");
-
-
+      
         for (int i = 0; i < arr.size(); i++) {
             Map<String, String> map = arr.get(i);
             String sessao = map.get("sessionId");
@@ -211,6 +217,8 @@ public class SocketConnectionHandler extends TextWebSocketHandler {
 
         // Removing the connection info from the list
         webSocketSessions.remove(session);
+        //super.handleMessage(session, message);
+        this.gameController.sendMessage(message);
     }
 
 }
