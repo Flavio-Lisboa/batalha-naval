@@ -1,0 +1,17 @@
+com\batalhanaval\entity\Item.class
+com\batalhanaval\entity\NivelAcesso.class
+com\batalhanaval\controller\UserController.class
+com\batalhanaval\controller\ItemController.class
+com\batalhanaval\repository\ItemCategoriaRepository.class
+com\batalhanaval\repository\UserRepository.class
+com\batalhanaval\service\ItemService.class
+com\batalhanaval\service\UserService.class
+com\batalhanaval\Application.class
+com\batalhanaval\entity\User$UserBuilder.class
+com\batalhanaval\controller\ItemCategoriaController.class
+com\batalhanaval\dtos\UserModel.class
+com\batalhanaval\entity\ItemCategoria.class
+com\batalhanaval\entity\User.class
+com\batalhanaval\repository\ItemRepository.class
+com\batalhanaval\service\ItemCategoriaService.class
+com\batalhanaval\config\SecurityConfig.class
