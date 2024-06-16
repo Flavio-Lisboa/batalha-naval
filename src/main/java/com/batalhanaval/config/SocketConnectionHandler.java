@@ -33,24 +33,8 @@ public class SocketConnectionHandler extends TextWebSocketHandler {
 
         super.afterConnectionEstablished(session);
         // Logging the connection ID with Connected Message
-        System.out.println(session.getId() + " Connected");
-        System.out.println(this.userService.usuarioLogadoId);
         // Adding the session into the list
-        webSocketSessions.remove(this.userService.usuarioLogadoId);
-        webSocketSessions.put(this.userService.usuarioLogadoId, session);
-
-    }
-
-    @Override
-    public void afterConnectionClosed(WebSocketSession session,
-                                      CloseStatus status) throws Exception
-    {
-        super.afterConnectionClosed(session, status);
-        System.out.println(session.getId()
-                + " DisConnected");
-
-        // Removing the connection info from the list
-        webSocketSessions.remove(this.userService.usuarioLogadoId);
+        webSocketSessions.put((Long) session.getAttributes().get("userId"), session);
     }
 
     @Override
@@ -59,7 +43,7 @@ public class SocketConnectionHandler extends TextWebSocketHandler {
             throws Exception
     {
 
-        super.handleMessage(session, message);
+        //super.handleMessage(session, message);
         this.gameController.sendMessage(message);
     }
 }

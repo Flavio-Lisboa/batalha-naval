@@ -8,4 +8,5 @@ import lombok.Setter;
 public class GameModel {
 
     private Long oponenteId;
+    private boolean sucesso;
 }
