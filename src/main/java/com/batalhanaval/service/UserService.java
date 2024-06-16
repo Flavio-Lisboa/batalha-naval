@@ -3,6 +3,7 @@ package com.batalhanaval.service;
 import com.batalhanaval.dtos.LoginModel;
 import com.batalhanaval.dtos.LoginResponse;
 import com.batalhanaval.dtos.PacoteModel;
+import com.batalhanaval.dtos.UserModel;
 import com.batalhanaval.entity.Avatar;
 import com.batalhanaval.entity.Embarcacao;
 import com.batalhanaval.entity.User;
@@ -40,8 +41,39 @@ public class UserService {
         return this.userRepository.findById(userId).orElse(null);
     }
 
-    public List<User> getUsers() {
-        return this.userRepository.findAll();
+    public List<UserModel> getUsers() {
+        List<User> users = this.userRepository.findAllByOrderByVitoriasDesc();
+        List<UserModel> userModels = new ArrayList<>();
+
+        users.forEach(user -> {
+            Avatar avatar = this.avatarRepository.findById((long) user.getIdAvatar()).orElse(null);
+
+            byte[] imageData = ImageUtil.decompressImage(avatar.getImgAvatar());
+            String base64 = "data:image/jpg;base64,"+ Base64.getEncoder().encodeToString(imageData);
+
+            userModels.add(
+                    new UserModel(
+                            user.getId(),
+                            user.getNome(),
+                            user.getEmail(),
+                            user.getSenha(),
+                            user.getDataNascimento(),
+                            user.getNivelAcesso(),
+                            user.getDiamante(),
+                            user.getMoeda(),
+                            user.getVolumeMusica(),
+                            user.getVolumeSom(),
+                            user.getVitorias(),
+                            user.getDerrotas(),
+                            user.getIdAvatar(),
+                            user.getIdTema(),
+                            user.getIdEmbarcacao(),
+                            base64
+                    )
+            );
+        });
+
+        return userModels;
     }
 
     public User updateUser(Long userId, User updateData) {

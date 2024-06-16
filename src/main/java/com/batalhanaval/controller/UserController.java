@@ -22,7 +22,6 @@ public class UserController {
 
     private final UserService userService;
 
-
     @Autowired
     private PacoteController pacoteController;
 
@@ -70,8 +69,8 @@ public class UserController {
 
     @GetMapping
     @CrossOrigin
-    public ResponseEntity<List<User>> getUsers() {
-        List<User> users = this.userService.getUsers();
+    public ResponseEntity<List<UserModel>> getUsers() {
+        List<UserModel> users = this.userService.getUsers();
 
         return ResponseEntity.ok(users);
     }
