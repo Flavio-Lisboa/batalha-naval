@@ -64,7 +64,6 @@ public class UserController {
     @GetMapping("{userId}")
     @CrossOrigin
     public ResponseEntity<User> getUser(@PathVariable Long userId) {
-        System.out.println(SocketConnectionHandler.webSocketSessions);
         User user = this.userService.getUser(userId);
         return ResponseEntity.ok(user);
     }
