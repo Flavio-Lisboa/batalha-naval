@@ -56,7 +56,7 @@ public class UserController {
         user = this.userService.saveUser(user);
 
 
-        this.pacoteController.comprarPacote(user.getId(), 1L); //falar pro Flavio dps ;-;
+        this.pacoteController.comprarPacote(user.getId(), 1L);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
@@ -65,6 +65,13 @@ public class UserController {
     @CrossOrigin
     public ResponseEntity<User> getUser(@PathVariable Long userId) {
         User user = this.userService.getUser(userId);
+        return ResponseEntity.ok(user);
+    }
+
+    @GetMapping("{userId}/op")
+    @CrossOrigin
+    public ResponseEntity<UserModel> getUserOp(@PathVariable Long userId) {
+        UserModel user = this.userService.getUserO(userId);
         return ResponseEntity.ok(user);
     }
 
@@ -169,6 +176,28 @@ public class UserController {
 
         user.setVolumeSom(volumeSom);
         user.setVolumeMusica(volumeMusica);
+        user = this.userService.saveUser(user);
+
+        return ResponseEntity.ok(user);
+    }
+
+    @PutMapping("{userId}/resultado-jogo")
+    @CrossOrigin
+    public ResponseEntity<User> resultadoJogo(@RequestParam() boolean win, @PathVariable Long userId) {
+
+        User user = this.userService.getUser(userId);
+
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+        if(win){
+            user.setVitorias(user.getVitorias()+1);
+            user.setMoeda(user.getMoeda()+50);
+        }else{
+            user.setDerrotas(user.getDerrotas()+1);
+            user.setMoeda(user.getMoeda()+10);
+        }
+
         user = this.userService.saveUser(user);
 
         return ResponseEntity.ok(user);

@@ -2,7 +2,6 @@ package com.batalhanaval.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.socket.TextMessage;
-import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 import org.springframework.web.socket.CloseStatus;
@@ -10,11 +9,13 @@ import org.springframework.web.socket.CloseStatus;
 import java.io.IOException;
 import java.util.*;
 
+
 public class SocketConnectionHandler extends TextWebSocketHandler {
     //https://medium.com/@parthiban.rajalingam/introduction-to-web-sockets-using-spring-boot-and-angular-b11e7363f051
     //https://www.geeksforgeeks.org/spring-boot-web-socket/
     List<WebSocketSession> webSocketSessions
             = Collections.synchronizedList(new ArrayList<>());
+
 
     private List<Map<String, String>> arr = new ArrayList<>();
     private List<Map<String, Map<String, String>>> playingArray = new ArrayList<>();
@@ -25,8 +26,8 @@ public class SocketConnectionHandler extends TextWebSocketHandler {
         String payload = message.getPayload();
         Map<String, String> infosUser = new HashMap<>();
         Map<String, String> player = new ObjectMapper().readValue(payload, HashMap.class);
-        System.out.println("entrei");
-        System.out.println(payload);
+        //System.out.println("entrei");
+        //System.out.println(payload);
         if (player.get("evento").equals("find")) {
             if(player.get("userId") != null){
 
@@ -46,9 +47,10 @@ public class SocketConnectionHandler extends TextWebSocketHandler {
                 infosUser.put("sessionId", session.getId());
                 infosUser.put("userId", player.get("userId"));
                 infosUser.put("tabuleiro", player.get("tabuleiro"));
+                infosUser.put("navios", player.get("navios"));
+
 
                 arr.add(infosUser);
-                System.out.println(arr);
 
                 if (arr.size() >= 2) {
 
@@ -108,12 +110,17 @@ public class SocketConnectionHandler extends TextWebSocketHandler {
 
             String responseMsg = new ObjectMapper().writeValueAsString(msg);
 
+
             if (session.getId().equals(players.get("p1").get("sessionId").toString())){
                 //p1 ganha
+                //this.userController.resultadoJogo( (boolean) msg.get("win"), Long.parseLong(players.get("p1").get("userId").toString()));
+                //this.userController.resultadoJogo( !(boolean) msg.get("win"), Long.parseLong(players.get("p2").get("userId").toString()));
+
                 this.sendMessageToClient(players.get("p2").get("sessionId").toString(), "final", responseMsg);
             }
             else{
-                //
+                //this.userController.resultadoJogo( !(boolean) msg.get("win"), Long.parseLong(players.get("p1").get("userId").toString()));
+                //this.userController.resultadoJogo( (boolean) msg.get("win"), Long.parseLong(players.get("p2").get("userId").toString()));
                 this.sendMessageToClient(players.get("p1").get("sessionId").toString(), "final", responseMsg);
             }
         }

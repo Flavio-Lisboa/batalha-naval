@@ -42,6 +42,32 @@ public class UserService {
         return this.userRepository.findById(userId).orElse(null);
     }
 
+    public UserModel getUserO(Long userId) {
+        User user = this.userRepository.findById(userId).orElse(null);
+        Avatar avatar = this.avatarRepository.findById((long) user.getIdAvatar()).orElse(null);
+
+        byte[] imageData = ImageUtil.decompressImage(avatar.getImgAvatar());
+        String base64 = "data:image/jpg;base64,"+ Base64.getEncoder().encodeToString(imageData);
+
+        return new UserModel(
+                        user.getId(),
+                        user.getNome(),
+                        user.getEmail(),
+                        user.getSenha(),
+                        user.getDataNascimento(),
+                        user.getNivelAcesso(),
+                        user.getDiamante(),
+                        user.getMoeda(),
+                        user.getVolumeMusica(),
+                        user.getVolumeSom(),
+                        user.getVitorias(),
+                        user.getDerrotas(),
+                        user.getIdAvatar(),
+                        user.getIdTema(),
+                        user.getIdEmbarcacao(),
+                        base64);
+    }
+
     public List<UserModel> getUsers() {
         List<User> users = this.userRepository.findAllByOrderByVitoriasDesc();
         List<UserModel> userModels = new ArrayList<>();
