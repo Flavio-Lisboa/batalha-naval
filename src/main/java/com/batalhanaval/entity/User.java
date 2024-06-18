@@ -80,19 +80,19 @@ public class User {
         this.moeda = moeda;
     }
 
-    public float getVolumeMusica() {
+    public int getVolumeMusica() {
         return volumeMusica;
     }
 
-    public void setVolumeMusica(float volumeMusica) {
+    public void setVolumeMusica(int volumeMusica) {
         this.volumeMusica = volumeMusica;
     }
 
-    public float getVolumeSom() {
+    public int getVolumeSom() {
         return volumeSom;
     }
 
-    public void setVolumeSom(float volumeSom) {
+    public void setVolumeSom(int volumeSom) {
         this.volumeSom = volumeSom;
     }
 
@@ -146,8 +146,8 @@ public class User {
     private NivelAcesso nivelAcesso;
     private int diamante;
     private int moeda;
-    private float volumeMusica;
-    private float volumeSom;
+    private int volumeMusica;
+    private int volumeSom;
     private int vitorias;
     private int derrotas;
     private int idAvatar;

@@ -42,8 +42,8 @@ public class UserController {
                 .nivelAcesso(NivelAcesso.USER)
                 .diamante(10)
                 .moeda(500)
-                .volumeMusica(0.5f)
-                .volumeSom(0.5f)
+                .volumeMusica(50)
+                .volumeSom(50)
                // .srcAvatar("../../assets/images/img-home-page/pirata1.png")
                 .idAvatar(1)
                 .idTema(1)
@@ -167,7 +167,7 @@ public class UserController {
 
     @PutMapping("{userId}/alterar-volume")
     @CrossOrigin
-    public ResponseEntity<User> alterarVolume(@RequestParam() float volumeSom, @RequestParam() float volumeMusica, @PathVariable Long userId) {
+    public ResponseEntity<User> alterarVolume(@RequestParam() int volumeSom, @RequestParam() int volumeMusica, @PathVariable Long userId) {
         User user = this.userService.getUser(userId);
 
         if (user == null) {

@@ -124,6 +124,7 @@ public class SocketConnectionHandler extends TextWebSocketHandler {
                 this.sendMessageToClient(players.get("p1").get("sessionId").toString(), "final", responseMsg);
             }
         }
+
     }
 
     public void sendMessageToAllClients(String message) {
