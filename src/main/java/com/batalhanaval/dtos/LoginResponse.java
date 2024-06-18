@@ -1,5 +1,6 @@
 package com.batalhanaval.dtos;
 
+import com.batalhanaval.entity.NivelAcesso;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,4 +16,5 @@ public class LoginResponse {
     private Boolean sucessoLogin;
     private Long usuarioId;
     private String nomeUsuario;
+    private NivelAcesso nivelAcesso;
 }

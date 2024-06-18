@@ -35,6 +35,12 @@ public class UserService {
     }
 
     public User saveUser(User user) {
+        User userEncontrado = this.userRepository.findByEmail(user.getEmail());
+
+        if (userEncontrado != null && user.getId() == null) {
+            return new User();
+        }
+
         return this.userRepository.save(user);
     }
 
@@ -136,15 +142,16 @@ public class UserService {
 
         User user = this.userRepository.findByEmail(model.getLogin());
 
-        if (user == null) return new LoginResponse("Usuário não encontrado. Por favor, verifique suas credenciais ou cadastre-se.", false, 0L, "");
+        if (user == null) return new LoginResponse("Usuário não encontrado. Por favor, verifique suas credenciais ou cadastre-se.", false, 0L, "", null);
 
-        if (!Objects.equals(user.getSenha(), model.getSenha())) return new LoginResponse("Senha incorreta.", false, 0L, "");
+        if (!Objects.equals(user.getSenha(), model.getSenha())) return new LoginResponse("Senha incorreta.", false, 0L, "", null);
 
         LoginResponse response = new LoginResponse();
         response.setMensagem("Logado com sucesso!");
         response.setSucessoLogin(true);
         response.setUsuarioId(user.getId());
         response.setNomeUsuario(user.getNome());
+        response.setNivelAcesso(user.getNivelAcesso());
 
         return response;
     }

@@ -55,6 +55,9 @@ public class UserController {
 
         user = this.userService.saveUser(user);
 
+        if (user.getId() == null) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(user);
+        }
 
         this.pacoteController.comprarPacote(user.getId(), 1L);
 
